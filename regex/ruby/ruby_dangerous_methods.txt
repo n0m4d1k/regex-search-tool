@@ -1,0 +1,1 @@
+(eval|instance_eval|class_eval|send|public_send|method_missing|define_method|module_eval)\s*\(

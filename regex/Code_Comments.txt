@@ -1,0 +1,1 @@
+(?i)(//|#|--|/\*).*\b(TODO|workaround|hack|why|bug|unsure|should\s+(not|never)|never|ticket\s+|TT\s+|cut\s+|fix\s+me)\b

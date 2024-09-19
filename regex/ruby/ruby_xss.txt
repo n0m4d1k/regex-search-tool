@@ -1,0 +1,1 @@
+(params|request|cookies)\[.*\](\.html_safe|\s*<<|[^>]=)

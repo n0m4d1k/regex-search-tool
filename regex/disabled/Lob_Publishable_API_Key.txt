@@ -1,0 +1,1 @@
+(test|live)_pub_[a-f0\-9]{31}

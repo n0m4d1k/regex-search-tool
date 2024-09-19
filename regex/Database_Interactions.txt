@@ -1,0 +1,1 @@
+(^|[^a-zA-Z0-9])(dynamo|database|db|table|query|select|schema|AttributeValue|ComparisonOperator|filterExpression)([^a-zA-Z0-9]|$)

@@ -1,0 +1,1 @@
+(^|[^a-zA-Z0-9])(AES|CBC|3DES|Triple\sDES|Triple_DES|Blowfish|RC4|ECB|SSLContext)([^a-zA-Z0-9]|$)

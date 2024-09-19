@@ -1,0 +1,1 @@
+mainnet[a-zA-Z0\-9]{32}|testnet[a-zA-Z0\-9]{32}|ipfs[a-zA-Z0\-9]{32}

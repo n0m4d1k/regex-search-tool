@@ -1,0 +1,16 @@
+(?i)(?: 
+    eval\(\s*['"] | 
+    document\.write\(\s*['"] | 
+    innerHTML\s*=\s*['"] | 
+    setTimeout\(\s*['"][^,]+, | 
+    setInterval\(\s*['"][^,]+, | 
+    new\s+Function\(\s*['"] | 
+    \$\.\s*getScript\(\s*['"] | 
+    xmlhttprequest\.open\(\s*['"] | 
+    child_process\.(?:exec|execSync|execFile)\(\s*['"] | 
+    process\.env\.\w+ | 
+    require\(\s*['"]\w+['"]\) | 
+    \b(?:sh|bash|zsh|cmd|powershell|cscript|wscript)\s+['"] | 
+    unsafe | 
+    Function\(| 
+    spawn\(\s*['"])

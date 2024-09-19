@@ -1,0 +1,3 @@
+(?i)(?: 
+    system\s*\(| 
+    \b(?:sh|bash|zsh|cmd|powershell|cscript|wscript)\s+.*)

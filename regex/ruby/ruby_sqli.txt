@@ -1,0 +1,1 @@
+\.execute\(|\.exec_query\(|\.exec_update\(|\.raw_connection\(|ActiveRecord::Base\.connection\.

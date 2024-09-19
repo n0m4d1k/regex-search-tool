@@ -1,0 +1,1 @@
+(^|[^a-zA-Z0-9])(XMLdecoder|XStream|fromXML|ObjectInputStream|readObject|Serializable|serialize|readUnshared|readObjectNodData|readResolve|readExternal)([^a-zA-Z0-9]|$)

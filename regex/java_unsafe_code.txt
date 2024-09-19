@@ -1,0 +1,6 @@
+(?i)(?: 
+    Runtime\.| 
+    Process\.| 
+    System\.(?:exit|load|run|exec)| 
+    exec(?:ute)?\s*\(| 
+    \b(?:sh|bash|zsh|cmd|powershell|cscript|wscript)\s+.*)

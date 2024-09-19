@@ -1,0 +1,1 @@
+github_pat_[0-9a-zA\-Z_]{82}

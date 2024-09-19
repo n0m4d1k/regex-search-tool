@@ -1,0 +1,1 @@
+(?i)\b(?:race\s*condition|thread\s*safe|thread\s*safety|synchronized|race\s*state|concurrent\s*access|thread\s*contention|dead\s*lock|deadlock|thread\s*contention|sleep|async|await|getInstance)\b

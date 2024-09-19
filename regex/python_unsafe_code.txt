@@ -1,0 +1,10 @@
+(?i)(?: 
+    import\s+os| 
+    exec| 
+    eval| 
+    subprocess\.(?:call|check_call|check_output|Popen)| 
+    os\.(?:system|popen|fork|forkpty)| 
+    sys\.modules| 
+    __import__| 
+    from\s+(?:os|sys)\s+import| 
+    \b(?:sh|bash|zsh|cmd|powershell|cscript|wscript)\s+.*)

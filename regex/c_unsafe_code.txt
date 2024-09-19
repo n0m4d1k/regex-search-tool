@@ -1,0 +1,16 @@
+(?i)(?: 
+    system\s*\(| 
+    strcpy\s*\(| 
+    strcat\s*\(| 
+    sprintf\s*\(| 
+    gets\s*\(| 
+    getpw\s*\(| 
+    memcpy\s*\(| 
+    scanf\s*\(| 
+    popen\s*\(| 
+    execl\s*\(| 
+    execlp\s*\(| 
+    execle\s*\(| 
+    execv\s*\(| 
+    execvp\s*\(| 
+    execvpe\s*\()
