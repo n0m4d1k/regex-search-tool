@@ -46,7 +46,20 @@ def get_file_type(file_path):
     _, ext = os.path.splitext(file_path)
     return file_type_map.get(ext)
 
-def search_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames, output_directory):
+def strip_bad_chars(text):
+    """
+    Strip bad characters from the text.
+
+    Args:
+        text (str): The text to be stripped.
+
+    Returns:
+        str: The cleaned text.
+    """
+    # Define characters to strip, e.g., non-alphanumeric except spaces and basic punctuation
+    return re.sub(r'[^a-zA-Z0-9\s.,;:!?\'\"(){}[\]@#&*-_+=]', '', text)
+
+def search_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, strip_chars=False):
     if should_skip_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames):
         return
 
@@ -65,15 +78,36 @@ def search_file(file_path, excluded_extensions, excluded_dirs, excluded_filename
             for i, line in enumerate(lines):
                 for regex_name, regex in applicable_regexes.items():
                     try:
-                        matches = re.findall(regex, line)
-                        if matches:
+                        matches = re.finditer(regex, line)  # Use finditer to capture full match objects
+                        for match in matches:
+                            full_match = match.group()  # Get the full match
+                            
+                            # Optionally strip unwanted characters from the match
+                            if strip_chars:
+                                full_match = strip_bad_chars(full_match)
+
+                            # Capture the full line where the match was found
+                            full_line = line.strip()
+
+                            # Optionally strip unwanted characters from the line
+                            if strip_chars:
+                                full_line = strip_bad_chars(full_line)
+
                             # Capture the context around the match
                             start_line = max(i - 10, 0)
                             end_line = min(i + 11, len(lines))
                             context_lines = lines[start_line:end_line]
                             context = ''.join(context_lines).strip()
-                            matched_keywords = ', '.join([str(match) for match in matches])
-                            result = f"Match found in {file_path} at line {i + 1} for pattern {regex_name}. Keywords: {matched_keywords}\n{context}\n\n"
+
+                            # Optionally strip unwanted characters from context
+                            if strip_chars:
+                                context = strip_bad_chars(context)
+
+                            # Format the keywords properly without breaking
+                            matched_keywords = ', '.join([str(m.group()) for m in re.finditer(regex, line)])
+                            
+                            result = (f"Match found in {file_path} at line {i + 1} for pattern {regex_name}. \n"
+                                      f"Keywords: {matched_keywords}\nMatching String: {full_line}\n\n{context}\n\n")
                             output_filename = os.path.join(output_directory, f"{regex_name}_matches.txt")
                             os.makedirs(os.path.dirname(output_filename), exist_ok=True)
                             with open(output_filename, "a", encoding='utf-8') as output_file:
@@ -125,7 +159,7 @@ def handle_regex_error(file_path, regex_name, regex_error, output_file=None):
     if output_file:
         output_file.write(error_message + "\n")
 
-def search_directory(directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory):
+def search_directory(directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, strip_chars=False):
     """
     Recursively search for files in a directory and apply search_file function to each file.
 
@@ -135,6 +169,7 @@ def search_directory(directory, excluded_extensions, excluded_dirs, excluded_fil
         excluded_dirs (list): List of directories to exclude.
         excluded_filenames (list): List of filenames to exclude.
         output_directory (str): Directory to save the output files.
+        strip_chars (bool): Whether to strip bad characters from the results.
     """
     for root, dirs, files in os.walk(directory, topdown=True):
         # Modify dirs in place to avoid traversing into excluded directories
@@ -143,7 +178,7 @@ def search_directory(directory, excluded_extensions, excluded_dirs, excluded_fil
         for file in files:
             file_path = os.path.join(root, file)
             if not should_skip_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames):
-                search_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames, output_directory)
+                search_file(file_path, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, strip_chars)
 
 def main():
     parser = argparse.ArgumentParser(description="Search for sensitive data in files.")
@@ -153,6 +188,7 @@ def main():
     parser.add_argument("-f", "--exclude_files", help="File names to exclude (comma-separated)", default="config.json,secrets.yml")
     parser.add_argument("-d", "--exclude_dirs", help="Directories to exclude (comma-separated, full path or relative to searched directory)", default="")
     parser.add_argument("-r", "--regex_dir", help="Directory containing regex .txt files", default="./regex")
+    parser.add_argument("-s", "--strip_bad_chars", action='store_true', help="Strip unwanted characters from the match")
     args = parser.parse_args()
 
     excluded_extensions = args.exclude_ext.split(',') if args.exclude_ext else []
@@ -181,7 +217,7 @@ def main():
             name: regex for name, regex in general_regexes.items() if lang in name
         }
 
-    search_directory(args.directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory)
+    search_directory(args.directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, args.strip_bad_chars)
 
 if __name__ == "__main__":
     main()

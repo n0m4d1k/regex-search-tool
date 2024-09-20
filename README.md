@@ -7,19 +7,22 @@ This tool recursively searches through files in a specified directory, applying 
 - Excludes specific file extensions, directories, and filenames from the search.
 - Outputs findings to a designated output directory.
 - Handles multiple programming languages with both general and language-specific regex patterns.
+- Optionally strips bad characters from the results.
 
 ## Usage
 
 ### Command Line Arguments
 - `directory`: Mandatory. The root directory to start the search.
 - `-o, --output`: Optional. Specifies the output directory prefix to save results. Default is "output".
-- `-e, --exclude_ext`: Optional. Specifies file extensions to exclude (comma-separated, include dot). Default is ".jpg, .png".
-- `-f, --exclude_files`: Optional. Specifies file names to exclude (comma-separated). Default is "config.json, secrets.yml".
+- `-e, --exclude_ext`: Optional. Specifies file extensions to exclude (comma-separated, include dot). Default is ".jpg,.png".
+- `-f, --exclude_files`: Optional. Specifies file names to exclude (comma-separated). Default is "config.json,secrets.yml".
 - `-d, --exclude_dirs`: Optional. Specifies directories to exclude (comma-separated, full path or relative to searched directory).
+- `-r, --regex_dir`: Optional. Specifies the directory containing regex .txt files. Default is "./regex".
+- `-s, --strip-bad-chars`: Optional. Strips bad characters from the results. If used, special characters are removed from the search results.
 
 ### Example Command
-```
-python regex-search-tool.py ./project -o results -e .jpg,.png -f config.json,secrets.yml -d ./temp,./backup
+```bash
+python regex-search-tool.py ./project -o results -e .jpg,.png -f config.json,secrets.yml -d ./temp,./backup -s
 ```
 
 ## Configuration
@@ -27,5 +30,3 @@ Modify the `excluded_extensions`, `excluded_dirs`, and `excluded_filenames` in t
 
 ## Installation
 No additional installation is required. Ensure Python is installed on your system.
-
-
