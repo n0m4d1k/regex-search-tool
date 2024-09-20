@@ -1,1 +1,1 @@
-(?i)(?:rm\s+-rf|ssh\s+.*|wget\s+.*|curl\s+-X\s+POST|nc\s+.*|mkfifo|/bin/bash|sudo|telnet\s+.*|chmod\s+777|\b(?:curl|wget|nc|netcat|tftp|ftp|ssh|telnet)\s+.*|<(?:\(|%28)|>(?:\)|%29)|\b(?:mkfifo|rm|chmod|chown|mount|umount|sudo)\s+.*)
+(?i)(?:rm\s+-rf|ssh\s+.*|wget\s+.*|curl\s+-X\s+POST|nc\s+.*|mkfifo|sudo|telnet\s+.*|chmod\s+777|\b(?:curl|wget|nc|netcat|tftp|ftp|ssh|telnet)\s+.*|<(?:\(|%28)|>(?:\)|%29)|\b(?:mkfifo|rm|chmod|chown|mount|umount|sudo)\s+.*)

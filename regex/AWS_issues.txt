@@ -1,0 +1,1 @@
+(https?://)?(issues|sim)\.amazon\.com/issues/[A-Z]{3,}-\d+
