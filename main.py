@@ -14,32 +14,41 @@ file_type_map = {
     '.java': 'java',
     '.pl': 'perl',
     '.pm': 'perl',
-    '.ts': 'typescript'
+    '.ts': 'typescript',
+    '.rb': 'ruby'
 }
 
 def load_regex_patterns(directory):
     """
-    Load regex patterns from individual .txt files in a specified directory,
-    ignoring any files in a 'disabled' subdirectory.
+    Load regex patterns from individual .txt files in a specified directory, including language-specific
+    directories named after programming languages.
 
     Args:
-        directory (str): Directory containing regex .txt files.
+        directory (str): Directory containing regex .txt files and language-specific subdirectories.
 
     Returns:
-        dict: Dictionary of regex patterns with the filename as the key.
+        dict: Dictionary of regex patterns with the language as the key.
     """
-    regex_patterns = {}
+    regex_patterns = {"general": {}}  # Start with a general regex pattern dictionary
+
     for root, _, files in os.walk(directory):
         # Skip the 'disabled' directory
         if 'disabled' in root.split(os.sep):
             continue
-        
+
+        # Determine if this is a language-specific directory
+        relative_path = os.path.relpath(root, directory)
+        directory_name = os.path.basename(root).lower() if relative_path != "." else "general"
+
+        if directory_name not in regex_patterns:
+            regex_patterns[directory_name] = {}
+
         for filename in files:
             if filename.endswith('.txt'):
-                pattern_name = filename[:-4]  # Remove the .txt extension to use as the pattern name
+                pattern_name = filename[:-4]  # Remove the .txt extension
                 with open(os.path.join(root, filename), 'r') as file:
                     pattern = file.read().strip()
-                    regex_patterns[pattern_name] = pattern
+                    regex_patterns[directory_name][pattern_name] = pattern
     return regex_patterns
 
 def get_file_type(file_path):
@@ -66,7 +75,7 @@ def search_file(file_path, excluded_extensions, excluded_dirs, excluded_filename
     _, ext = os.path.splitext(file_path)
     language = file_type_map.get(ext)
 
-    # Apply the regex patterns for general searches and language-specific searches
+    # Apply general regex patterns and language-specific ones if applicable
     applicable_regexes = general_regexes.copy()  # Start with general regexes
 
     if language and language in language_specific_regexes:
@@ -144,21 +153,6 @@ def should_skip_file(file_path, excluded_extensions, excluded_dirs, excluded_fil
 
     return False
 
-def handle_regex_error(file_path, regex_name, regex_error, output_file=None):
-    """
-    Handle errors that occur while applying regex patterns.
-
-    Args:
-        file_path (str): Path to the file.
-        regex_name (str): Name of the regex pattern.
-        regex_error (Exception): Error raised during regex operation.
-        output_file (file): Output file to save error messages.
-    """
-    error_message = f"Error with regex '{regex_name}' in {file_path}: {str(regex_error)}"
-    print(error_message)
-    if output_file:
-        output_file.write(error_message + "\n")
-
 def search_directory(directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, strip_chars=False):
     """
     Recursively search for files in a directory and apply search_file function to each file.
@@ -194,7 +188,7 @@ def main():
     excluded_extensions = args.exclude_ext.split(',') if args.exclude_ext else []
     excluded_filenames = args.exclude_files.split(',') if args.exclude_files else []
     # Include 'test', 'tests', 'testing', and any other directories specified by the user
-    default_excluded_dirs = ["test", "tests", "testing",".git"]
+    default_excluded_dirs = ["test", "tests", "testing", ".git"]
     user_excluded_dirs = args.exclude_dirs.split(',') if args.exclude_dirs else []
     excluded_dirs = default_excluded_dirs + [dir for dir in user_excluded_dirs if dir not in default_excluded_dirs]
 
@@ -206,16 +200,10 @@ def main():
     global general_regexes
     global language_specific_regexes
     
-    general_regexes = load_regex_patterns(args.regex_dir)
-
-    # Initialize the dictionary for language-specific regexes
-    language_specific_regexes = {}
+    regex_patterns = load_regex_patterns(args.regex_dir)
     
-    # Assign the loaded regex patterns to each language based on the filenames
-    for lang in file_type_map.values():
-        language_specific_regexes[lang] = {
-            name: regex for name, regex in general_regexes.items() if lang in name
-        }
+    general_regexes = regex_patterns.get("general", {})
+    language_specific_regexes = {lang: patterns for lang, patterns in regex_patterns.items() if lang != "general"}
 
     search_directory(args.directory, excluded_extensions, excluded_dirs, excluded_filenames, output_directory, args.strip_bad_chars)
 
