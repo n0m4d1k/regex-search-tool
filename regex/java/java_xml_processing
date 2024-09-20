@@ -1,0 +1,1 @@
+\b(DOMParser|XMLInputFactory|TransformerFactory|Validator|SchemaFactory|SAXTransformerFactory|XMLReader|SAXBuilder)\b

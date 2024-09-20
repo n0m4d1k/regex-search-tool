@@ -1,0 +1,1 @@
+(eval|exec|pickle\.load|pickle\.loads|marshal\.load|marshal\.loads|shelve\.open|__import__|execfile)

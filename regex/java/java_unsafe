@@ -1,0 +1,1 @@
+\b(Runtime|exec|eval|ProcessBuilder|reflection|Statement|ObjectInputStream|SAXParser|StringSubstitutor|StringLookup)\b

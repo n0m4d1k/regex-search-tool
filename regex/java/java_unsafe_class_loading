@@ -1,0 +1,1 @@
+\b(getBundle|getDriver|getConnection|deregisterDriver|defineClass|URLClassLoader|getPackage|forName|getBeanInfo|loadLibrary)\b

@@ -1,0 +1,1 @@
+\b(threading|multiprocessing|concurrent\.futures|asyncio|ThreadPoolExecutor|ProcessPoolExecutor|Queue|Thread|Process|Lock|Semaphore|Condition|Event|Barrier|RLock|async def|await|__aenter__|__aexit__)\b

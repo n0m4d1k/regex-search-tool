@@ -1,7 +1,1 @@
-(?i)(?: 
-    <script>| 
-    onerror=| 
-    onload=| 
-    onclick=| 
-    onmouseover=| 
-    href=\"javascript:)
+(?i)(?:<script>|onerror=|onload=|onclick=|onmouseover=|href=\"javascript:)

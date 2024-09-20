@@ -1,9 +1,1 @@
-(?i)(?: 
-    new\s+char| 
-    delete\s+| 
-    std::vector| 
-    std::string| 
-    std::map| 
-    std::ifstream| 
-    std::ofstream| 
-    std::endl)
+(?i)(?:new\s+char|delete\s+|std::vector|std::string|std::map|std::ifstream|std::ofstream|std::endl)
