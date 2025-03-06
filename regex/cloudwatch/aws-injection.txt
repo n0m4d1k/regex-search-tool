@@ -1,0 +1,1 @@
+(<script>|javascript:|onerror=|alert\(|%3Cscript%3E|javascript%3A|onerror%3D|alert%28|' OR '1'='1|;--|UNION SELECT|DROP TABLE|%27%20OR%20%271%27%3D%271|%3B--|UNION%20SELECT|DROP%20TABLE|\| ls|; reboot|&& rm|\|\| cat|%7C%20ls|%3B%20reboot|%26%26%20rm|%7C%7C%20cat)

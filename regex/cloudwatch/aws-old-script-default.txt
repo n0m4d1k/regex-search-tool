@@ -1,0 +1,1 @@
+(SECRET|PRIVATE|BEGIN|Token|Key|password|(?:[^A-Za-z0-9\/+=]|^)[A-Za-z0-9\/+=]{40}(?![A-Za-z0-9\/+=])|@[a-z0-9]{1,100}\.(?:com|org|edu)|bash|python|log_injection_after|request-header-injection|127\.8\.8\.1|DEBUG|TRACE)

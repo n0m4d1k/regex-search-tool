@@ -1,0 +1,1 @@
+log_injection_after(?!.*log_injection_before)
